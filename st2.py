@@ -1,13 +1,9 @@
-import base64
 import datetime
-import time  # to simulate a real time data, time loop
-import numpy as np  # np mean, np random
-import pandas as pd  # read csv, df manipulation
-import plotly.express as px  # interactive charts
+import pandas as pd
 import pygal as pg
-import streamlit as st  # 🎈 data web app development
+import streamlit as st
 from IPython.display import HTML, display, display_svg
-from pygal.style import CleanStyle, DarkStyle, Style
+from pygal.style import DarkStyle
 
 st.set_page_config(
     page_title="受講生進捗ダッシュボード（12月）",
@@ -16,7 +12,7 @@ st.set_page_config(
 )
 
 # read csv from a github repo
-dataset_url = "https://raw.githubusercontent.com/Lexie88rus/bank-marketing-analysis/master/bank.csv"
+dataset_url = "https://raw.githubusercontent.com/Taichi-ando/student_dashboard/master/受講生管理シート（架空）.csv"
 base_html = """
 <!DOCTYPE html>
 <html>
@@ -41,10 +37,9 @@ def get_data() -> pd.DataFrame:
 
 df = get_data()
 
-# dashboard title
 st.title("受講生進捗ダッシュボード（12月）")
 
-df = pd.read_csv("/Users/ando/project/obenkyo/受講生管理シート（架空） - シート1 (1).csv")
+# df = pd.read_csv("/Users/ando/project/obenkyo/受講生管理シート（架空） - シート1 (1).csv")
 df = df.rename(columns={"進捗度(%)": "進捗度"})
 df["修了"] = df["進捗度"] == 100
 df_mean = df.groupby("コース", as_index=False).mean()
@@ -66,10 +61,8 @@ univ_names = df_g["学校名"]
 df_univ_per = df_g["氏名"] / len(df)
 
 
-# create three columns
 kpi1, kpi2 = st.columns(2)
 
-# fill in those three columns with respective metrics or KPIs
 kpi1.metric(
     label="受講生数",
     value=len(df),
@@ -91,12 +84,8 @@ gauge = pg.SolidGauge(
         value_colors=("white"),
         background="transparent",
         plot_background="transparent",
-        # label_font_size=20,
-        # major_label_font_size=20,
-        # legend_font_size=25,
     ),
 )
-# gauge.title = "各コースの修了率"
 gauge.value_formatter = lambda x: "{:.1f}%".format(x)
 
 
@@ -104,7 +93,7 @@ _ = [
     gauge.add(k, [{"value": v, "max_vlaue": 100}])
     for k, v in zip(df_mean["コース"], df_mean["修了"] * 100)
 ]
-# render_svg(gauge.render(is_unicode=True))
+
 st.write((HTML(base_html.format(rendered_chart=gauge.render(is_unicode=True)))))
 
 fig_col1, fig_col2 = st.columns(2)
