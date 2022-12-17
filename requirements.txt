@@ -1,0 +1,4 @@
+pandas
+pygal
+streamlit
+IPython
