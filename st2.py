@@ -37,7 +37,19 @@ def get_data() -> pd.DataFrame:
 
 df = get_data()
 
-st.title("受講生進捗ダッシュボード（12月）")
+# st.title("受講生進捗ダッシュボード（12月）")
+st.markdown(
+    """
+<style>
+.big-font {
+    font-size:50px !important;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+st.markdown('<p class="big-font">受講生進捗ダッシュボード（12月）</p>', unsafe_allow_html=True)
 
 # df = pd.read_csv("/Users/ando/project/obenkyo/受講生管理シート（架空） - シート1 (1).csv")
 df = df.rename(columns={"進捗度(%)": "進捗度"})
@@ -62,7 +74,26 @@ df_univ_per = df_g["氏名"] / len(df)
 
 
 kpi1, kpi2 = st.columns(2)
-
+st.markdown(
+    """
+<style>
+[data-testid="stMetricValue"] {
+    font-size: 100px;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    """
+<style>
+[data-testid="stMetricDelta"] {
+    font-size: 30px;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 kpi1.metric(
     label="受講生数",
     value=len(df),
