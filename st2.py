@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # read csv from a github repo
-dataset_url = "https://raw.githubusercontent.com/Taichi-ando/student_dashboard/master/受講生管理シート（架空）.csv"
+dataset_url = "https://raw.githubusercontent.com/Taichi-ando/student_dashboard/master/students.csv"
 base_html = """
 <!DOCTYPE html>
 <html>
