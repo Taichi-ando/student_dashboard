@@ -30,7 +30,7 @@ base_html = """
 
 
 # read csv from a URL
-@st.experimental_memo
+@st.cache_data
 def get_data() -> pd.DataFrame:
     return pd.read_csv(dataset_url)
 
@@ -54,7 +54,7 @@ st.markdown('<p class="big-font">受講生進捗ダッシュボード（12月）
 # df = pd.read_csv("/Users/ando/project/obenkyo/受講生管理シート（架空） - シート1 (1).csv")
 df = df.rename(columns={"進捗度(%)": "進捗度"})
 df["修了"] = df["進捗度"] == 100
-df_mean = df.groupby("コース", as_index=False).mean()
+df_mean = df.groupby("コース", as_index=False).mean(numeric_only=True)
 
 df["加入日"] = pd.to_datetime(df["加入日"])
 df_date = (
